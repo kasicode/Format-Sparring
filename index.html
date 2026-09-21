@@ -58,7 +58,7 @@ function sel(inp,genre,terr,n){
 }
 
 function buildPrompt(userInput, fmts){
-  var lines=fmts.map(function(f){return f.t+" ("+f.g+"): "+f.s;}).join(" | ");
+  var lines=fmts.map(function(f){return f.t+" ("+f.g+"): "+f.s.slice(0,80);}).join(" | ");
   return [
     "Je bent een TV format developer.",
     "Input: "+userInput,
@@ -90,11 +90,11 @@ async function generate(){
   btn.disabled=true;
   out.innerHTML='<div class="load"><span class="spin"></span>Genereert ideeen...</div>';
   try{
-    lastSel=sel(inp,document.getElementById("gf").value,document.getElementById("tf").value,10);
+    lastSel=sel(inp,document.getElementById("gf").value,document.getElementById("tf").value,6);
     var resp=await fetch("/proxy",{
       method:"POST",headers:{"Content-Type":"application/json"},
       body:JSON.stringify({
-        model:"claude-sonnet-4-5",max_tokens:1000,
+        model:"claude-sonnet-4-5",max_tokens:1500,
         system:"Je antwoordt ALTIJD met alleen een geldig JSON object. Geen tekst ervoor of erna. Geen markdown.",
         messages:[{role:"user",content:buildPrompt(inp,lastSel)}]
       })
