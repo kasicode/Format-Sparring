@@ -115,7 +115,7 @@ async function generate(){
     var ctx='<div class="ctx"><strong>'+lastSel.length+' formats</strong> als context &mdash; '+lastSel.slice(0,4).map(function(f){return f.t;}).join(", ")+(lastSel.length>4?" e.a.":"")+'</div>';
     out.innerHTML=ctx+ideas.map(card).join("")+'<div class="exp"><button onclick="exportTxt()">Exporteer .txt</button><button onclick="exportJSON()">Exporteer .json</button></div>';
   }catch(e){
-    out.innerHTML='<div class="err">Fout: '+e.message+'</div>';
+    console.log('RAW OUTPUT:', raw); out.innerHTML='<div class="err">Fout: '+e.message+'<br><small>'+raw.slice(0,200)+'</small></div>';
   }
   btn.disabled=false;
 }
