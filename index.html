@@ -102,10 +102,8 @@ async function generate(){
     var data=await resp.json();
     var raw=(data.content||[]).map(function(c){return c.text||"";}).join("");
     var parsed;
-    var cleaned=raw.replace(/```json/g,"").replace(/```/g,"").trim();
-    var s=cleaned.indexOf("{"),e=cleaned.lastIndexOf("}");
-    if(s!==-1&&e!==-1) cleaned=cleaned.slice(s,e+1);
-    try{parsed=JSON.parse(cleaned);}catch(e){}
+    var s=raw.indexOf("{"),e=raw.lastIndexOf("}");
+    if(s!==-1&&e!==-1){try{parsed=JSON.parse(raw.slice(s,e+1));}catch(e){}}
     if(!parsed)throw new Error("Kon output niet parsen");
     var ideas=parsed.ideas||[];
     if(!ideas.length)throw new Error("Geen ideeen ontvangen");
